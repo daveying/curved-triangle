@@ -34,6 +34,13 @@
                 scene.add(triangle);
 
                 renderer.render(scene, camera);
+
+                var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3), new THREE.MeshBasicMaterial({color: 0xff0000}));
+                scene.add(cube);
+                //scene.remove(triangle);
+                renderer.render(scene, camera);
+                camera.position.set(1, 0, 5);
+                renderer.render(scene, camera);
             }
         </script>
     </head>
