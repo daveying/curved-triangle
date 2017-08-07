@@ -1,0 +1,112 @@
+.navbar { 
+    margin-bottom: 0 !important; 
+    border-radius: 0 !important;
+}
+
+body {
+    overflow: hidden;
+    margin: 0px;
+    
+}
+
+#my-logo {
+    padding: 5px 20px 5px 10px;
+}
+
+/* div id="body" */
+#body {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: column;
+    background-color: #232323;
+}
+
+    /* div id="main-content" */
+#main-content {
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row;
+    height: 100%;
+    background-color: #232323;
+}
+        /* div id="control-panal" */
+#control-panel {
+    width: 500px;
+    margin: 0px;
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: column;
+    background-color: gray;
+}
+#data-input {
+    height: 100%;
+    width: 100%;
+    background-color: lightgoldenrodyellow;
+}
+#uvw-panel {
+    width: 100%;
+    height: 400px;
+    background: lightblue;
+}
+        /* end div id="control-panal" */
+
+#viewer-div {
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+}
+    /* end div id="main-content" */
+
+    /* footer id="footer" */
+#footer {
+    height: 30px;
+    background-color: #303030;
+    color: #ffffff;
+}
+#footer > div {
+    margin: 5px 0px 0px 10px;
+}
+footer a {
+    color: #bbbbbb;
+}
+
+footer a:hover {
+    color: white;
+}
+    /* end footer id="footer" */
+/* end div id="body" */
+
+
+
+@media all and (max-width: 767px) {
+    #main-content {
+        flex-flow: column;
+    }
+        /* div id="control-panal" */
+    #control-panel {
+        width: 100%;
+        margin: 0px;
+        height: 400px;
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row;
+    }
+    #data-input {
+        height: 100%;
+        width: 100%;
+    }
+    #uvw-panel {
+        width: 400px;
+        height: 400px;
+    }
+        /* end div id="control-panal" */
+
+}
+
+
