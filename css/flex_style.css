@@ -36,24 +36,24 @@ body {
 }
         /* div id="control-panal" */
 #control-panel {
-    width: 500px;
+    width: 50px;
     margin: 0px;
     height: 100%;
     display: -webkit-flex;
     display: flex;
     flex-flow: column;
-    background-color: gray;
+    background-color: #333333;
 }
-#data-input {
-    height: 100%;
-    width: 100%;
-    background-color: lightgoldenrodyellow;
+#control-panel div {
+    height: 50px;
+    widows: 100px;
+    color: #aaa;
 }
-#uvw-panel {
-    width: 100%;
-    height: 400px;
-    background: lightblue;
+#control-panel .glyphicon {
+    font-size: 24px;
+    margin: 13px;
 }
+
         /* end div id="control-panal" */
 
 #viewer-div {
@@ -65,12 +65,13 @@ body {
 
     /* footer id="footer" */
 #footer {
-    height: 30px;
-    background-color: #303030;
+    height: auto;
+    width: 100%;
+    background-color: #007acc;
     color: #ffffff;
 }
 #footer > div {
-    margin: 5px 0px 0px 10px;
+    margin: 5px 0px 5px 10px;
 }
 footer a {
     color: #bbbbbb;
@@ -85,28 +86,9 @@ footer a:hover {
 
 
 @media all and (max-width: 767px) {
-    #main-content {
-        flex-flow: column;
+    #footer div {
+        word-wrap: normal;
     }
-        /* div id="control-panal" */
-    #control-panel {
-        width: 100%;
-        margin: 0px;
-        height: 400px;
-        display: -webkit-flex;
-        display: flex;
-        flex-flow: row;
-    }
-    #data-input {
-        height: 100%;
-        width: 100%;
-    }
-    #uvw-panel {
-        width: 400px;
-        height: 400px;
-    }
-        /* end div id="control-panal" */
-
 }
 
 
