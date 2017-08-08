@@ -83,7 +83,27 @@ footer a:hover {
     /* end footer id="footer" */
 /* end div id="body" */
 
+#data-input {
+    position: absolute; 
+    top: 60px;
+    left: 60px;
+    width: 400px;
+    height: 500px;
+    background-color: #252526;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px gray;
+}
 
+#info-show {
+    position: absolute; 
+    top: 120px;
+    left: 60px;
+    width: 400px;
+    height: 500px;
+    background-color: #252526;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px gray;
+}
 
 @media all and (max-width: 767px) {
     #footer div {
