@@ -1,4 +1,4 @@
-var iconBind = (function () {
+var controlPanelModule = (function () {
     var $pencilIcon = $('#data-input-icon');
     console.log($pencilIcon);
     var $cogIcon = $('#info-show-icon');
@@ -34,6 +34,20 @@ var iconBind = (function () {
             infoShowOpen = true;
         }
     });
+
+    function hideAll () {
+        if (infoShowOpen) {
+            $infoShow.fadeOut(1);
+            infoShowOpen = false;
+        }
+        if (dataInputOpen) {
+            $dataInput.fadeOut(1);
+            dataInputOpen = false;
+        }
+    }
+    return {
+        hideAll: hideAll
+    };
 })();
 
 var logoCtrl = (function () {
@@ -51,3 +65,7 @@ var logoCtrl = (function () {
         logoImgGray.style['display'] = originalStyle;
     }
 })();
+
+$('#viewer-div').click(function () {
+    controlPanelModule.hideAll();
+});

@@ -61,6 +61,10 @@ body {
     height: 100%;
     background-color: lightgray;
 }
+#viewer {
+    width: 100%;
+    height: 100%;
+}
     /* end div id="main-content" */
 
     /* footer id="footer" */
@@ -96,7 +100,7 @@ footer a:hover {
 
 #info-show {
     position: absolute; 
-    top: 120px;
+    top: 110px;
     left: 60px;
     width: 400px;
     height: 500px;
