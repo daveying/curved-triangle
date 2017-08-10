@@ -1,6 +1,5 @@
 var controlPanelModule = (function () {
     var $pencilIcon = $('#data-input-icon');
-    console.log($pencilIcon);
     var $cogIcon = $('#info-show-icon');
     var $dataInput = $('#data-input');
     var $infoShow = $('#info-show');
