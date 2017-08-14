@@ -14,7 +14,7 @@ var vector3Tools = (function () {
 
     return {
         add: add,
-        scale: scale,
+        scale: scale
     };
 })();
 
@@ -46,7 +46,7 @@ CurvedTriangle.prototype.getFacets = function (lod) {
     }
 }
 CurvedTriangle.prototype.facet = function (lod) {
-
+    
 }
 
 var QuadaticTriangle = function () {
