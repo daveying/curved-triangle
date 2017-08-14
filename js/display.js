@@ -5,6 +5,7 @@ var displayModule = (function () {
     });
     renderer.setClearColor(0xeeeeee);
     renderer.setSize(viewer.getBoundingClientRect().width, viewer.getBoundingClientRect().height);
+    console.log(viewer.getBoundingClientRect());
 
     var scene = new THREE.Scene();
 
@@ -18,4 +19,5 @@ var displayModule = (function () {
                             }));
     scene.add(cube);
     renderer.render(scene, camera);
+
 })();
