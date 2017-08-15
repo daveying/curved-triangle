@@ -47,7 +47,19 @@ CurvedTriangle.prototype.getFacets = function (lod) {
 }
 CurvedTriangle.prototype.facet = function (lod) {
     var index = [];
+    var vertices = [];
+    var normals = [];
     var level = lod + 1;
+    var uvStep = 1 / level;
+    for (let i = 0; i < level + 1; i++){
+        for (let j = 0; j < i + 1; j++) {
+            let u = 1 - uvStep * i;
+            let w = uvStep * j;
+            let v = 1 - u - w;
+            vertices.push(this.evalPose(u, v, w));
+            normals.push(this.evalNormal(u, v, w));
+        }
+    }
     index.push([0, 1, 2]);
 
     function add(v, s){
@@ -75,7 +87,11 @@ CurvedTriangle.prototype.facet = function (lod) {
             }
         }
     }
-    return index;
+    return {
+        index: index,
+        vertices: vertices,
+        normals: normals
+    }
 }
 
 var QuadaticTriangle = function () {
@@ -95,12 +111,6 @@ QuadaticTriangle.prototype.set = function(p200_, p020_, p002_, p110_, p011_, p10
     this.n101 = vector3Tools.scale(vector3Tools.add(this.n200, this.n002), 0.5);
 }
 QuadaticTriangle.prototype.evalPose = function(u, v, w) {
-    if (u < 0 || v < 0 || u + v > 1) return;
-    if (w === undefined) {
-        w = 1 - u - v;
-    } else if (u < 0 || u + v + w > 1) {
-        return;
-    }
     return vector3Tools.add(vector3Tools.scale(this.p200, u * u), 
                             vector3Tools.scale(this.p020, v * v),
                             vector3Tools.scale(this.p002, w * w),
@@ -109,12 +119,6 @@ QuadaticTriangle.prototype.evalPose = function(u, v, w) {
                             vector3Tools.scale(this.p101, 2 * u * w));
 }
 QuadaticTriangle.prototype.evalNormal = function(u, v, w) {
-    if (u < 0 || v < 0 || u + v > 1) return;
-    if (w === undefined) {
-        w = 1 - u - v;
-    } else if (u < 0 || u + v + w > 1) {
-        return;
-    }
     return vector3Tools.add(vector3Tools.scale(this.n200, u * u), 
                             vector3Tools.scale(this.n020, v * v),
                             vector3Tools.scale(this.n002, w * w),
@@ -154,12 +158,6 @@ CubicTriangle.prototype.set = function(p300_, p030_, p003_, p210_, p120_,  p021_
     this.n101 = vector3Tools.scale(vector3Tools.add(this.n200, this.n002), 0.5);
 }
 CubicTriangle.prototype.evalNormal = function(u, v, w) {
-    if (u < 0 || v < 0 || u + v > 1) return;
-    if (w === undefined) {
-        w = 1 - u - v;
-    } else if (u < 0 || u + v + w > 1) {
-        return;
-    }
     return vector3Tools.add(vector3Tools.scale(this.n200, u * u * u), 
                             vector3Tools.scale(this.n020, v * v * v),
                             vector3Tools.scale(this.n002, w * w * w),
@@ -168,12 +166,6 @@ CubicTriangle.prototype.evalNormal = function(u, v, w) {
                             vector3Tools.scale(this.n101, 2 * u * w));
 }
 CubicTriangle.prototype.evalPose = function(u, v, w) {
-    if (u < 0 || v < 0 || u + v > 1) return;
-    if (w === undefined) {
-        w = 1 - u - v;
-    } else if (u < 0 || u + v + w > 1) {
-        return;
-    }
     return vector3Tools.add(vector3Tools.scale(this.n300, u * u), 
                             vector3Tools.scale(this.n030, v * v),
                             vector3Tools.scale(this.n003, w * w),

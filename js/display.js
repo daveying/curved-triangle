@@ -23,20 +23,25 @@ var displayModule = (function () {
     controls.keys = [65, 83, 68];
     controls.addEventListener('change', render);
 
-    var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3), new THREE.MeshNormalMaterial());
+    //var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3), new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
+    var ct = new QuadaticTriangle();
+    ct.set([0, 1, 0], [0, 0,0],[1,0,0],[0,0.5,0],[0.5,0,0],[0.5,0.5,1],[0,0,1],[0,0,1],[0,0,1]);
+    var curveTri = ct.facet(8);
     var geom = new THREE.Geometry();
-    var v1 = new THREE.Vector3(0, 0, 0);
-    var v2 = new THREE.Vector3(3, 0, 0);
-    var v3 = new THREE.Vector3(3, 3, 0);
-    geom.vertices.push(v1);
-    geom.vertices.push(v2);
-    geom.vertices.push(v3);
+    for ( let i = 0, len = curveTri.vertices.length; i < len; i++){
+        let v = new THREE.Vector3(curveTri.vertices[i][0], curveTri.vertices[i][1], curveTri.vertices[i][2]);
+        geom.vertices.push(v);
+    }
+    for (let i = 0, len = curveTri.index.length; i < len; i++){
+        let v = new THREE.Face3(curveTri.index[i][0], curveTri.index[i][1], curveTri.index[i][2]);
+        geom.faces.push(v);
+    }
 
-    geom.faces.push(new THREE.Face3(0, 1, 2));
+    //geom.faces.push(new THREE.Face3(0, 1, 2));
     geom.computeFaceNormals();
-    var mesh = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
+    var mesh = new THREE.Mesh(geom, new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
     scene.add(mesh);
-    scene.add(cube);
+    //scene.add(cube);
 
     window.addEventListener('resize', onWindowResize, false);
 
