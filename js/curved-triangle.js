@@ -46,7 +46,36 @@ CurvedTriangle.prototype.getFacets = function (lod) {
     }
 }
 CurvedTriangle.prototype.facet = function (lod) {
-    
+    var index = [];
+    var level = lod + 1;
+    index.push([0, 1, 2]);
+
+    function add(v, s){
+        return [v[0] + s, v[1] + s, v[2] + s];
+    }
+
+    for (let i = 1; i < level; i++){
+        let lenTris = 2 * i + 1;
+        let headNum = 0.5 * i * (i + 1);
+        let incre = i + 1;
+        let upTri = [headNum, headNum + incre, headNum + incre + 1];
+        let downTri = [headNum, headNum + incre + 1, headNum + 1];
+        index.push(upTri);
+        index.push(downTri);
+        let flag = true;
+        let steps = 1;
+        for (let j = 2; j < lenTris; j++){
+            if(flag){
+                flag = false;
+                index.push(add(upTri, steps));
+            } else {
+                flag = true;
+                index.push(add(downTri, steps));
+                steps++;
+            }
+        }
+    }
+    return index;
 }
 
 var QuadaticTriangle = function () {
