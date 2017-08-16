@@ -12,6 +12,22 @@ var displayModule = (function () {
     camera.position.set(0, 0, 15);
     scene.add(camera);
 
+    var ambientLight = new THREE.AmbientLight( 0x000000 );
+    scene.add( ambientLight );
+
+    var lights = [];
+    lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+
+    lights[ 0 ].position.set( 0, 200, 0 );
+    lights[ 1 ].position.set( 100, 200, 100 );
+    lights[ 2 ].position.set( - 100, - 200, - 100 );
+
+    scene.add( lights[ 0 ] );
+    scene.add( lights[ 1 ] );
+    scene.add( lights[ 2 ] );
+
     var controls = new THREE.TrackballControls(camera, viewerDiv);
     controls.rotateSpeed = 4.0;
     controls.zoomSpeed = 4.2;
@@ -25,21 +41,33 @@ var displayModule = (function () {
 
     //var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3), new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
     var ct = new QuadaticTriangle();
-    ct.set([0, 1, 0], [0, 0,0],[1,0,0],[0,0.5,0],[0.5,0,0],[0.5,0.5,1],[0,0,1],[0,0,1],[0,0,1]);
-    var curveTri = ct.facet(8);
+    ct.set([0, 1, 0], [0, 0, 0], [1, 0, 0], [0, 0.5, 0], [0.5, 0, 0], [0.5, 0.5, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]);
+    var curveTri = ct.facet(15);
     var geom = new THREE.Geometry();
     for ( let i = 0, len = curveTri.vertices.length; i < len; i++){
         let v = new THREE.Vector3(curveTri.vertices[i][0], curveTri.vertices[i][1], curveTri.vertices[i][2]);
         geom.vertices.push(v);
     }
+    function formAVector3(arr){
+        return new THREE.Vector3(arr[0], arr[1], arr[2]);
+    }
     for (let i = 0, len = curveTri.index.length; i < len; i++){
-        let v = new THREE.Face3(curveTri.index[i][0], curveTri.index[i][1], curveTri.index[i][2]);
+        let vertNormals = [];
+        vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][0]]));
+        vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][1]]));
+        vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][2]]));
+        let v = new THREE.Face3(curveTri.index[i][0], curveTri.index[i][1], curveTri.index[i][2], vertNormals);
         geom.faces.push(v);
     }
 
-    //geom.faces.push(new THREE.Face3(0, 1, 2));
+    var phongMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x007acc, 
+        shading: THREE.FlatShading,
+        side: THREE.DoubleSide
+    });
+    var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
     geom.computeFaceNormals();
-    var mesh = new THREE.Mesh(geom, new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
+    var mesh = new THREE.Mesh(geom, phongMaterial);
     scene.add(mesh);
     //scene.add(cube);
 
