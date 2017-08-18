@@ -91,7 +91,8 @@ footer a:hover {
     position: absolute; 
     top: 60px;
     left: 60px;
-    width: 400px;
+    width: 100%;
+    max-width: 500px;
     height: 500px;
     background-color: #252526;
     border-radius: 5px;
