@@ -9,11 +9,11 @@ var displayModule = (function () {
     var scene = new THREE.Scene();
 
     var camera = new THREE.PerspectiveCamera(45, viewerDiv.getBoundingClientRect().width / viewerDiv.getBoundingClientRect().height, 1, 1000);
-    camera.position.set(0, 0, 15);
+    camera.position.set(0, 0, 3);
     scene.add(camera);
 
-    var ambientLight = new THREE.AmbientLight( 0x000000 );
-    scene.add( ambientLight );
+    // var ambientLight = new THREE.AmbientLight( 0x000000 );
+    // scene.add( ambientLight );
 
     var lights = [];
     lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
@@ -27,6 +27,15 @@ var displayModule = (function () {
     scene.add( lights[ 0 ] );
     scene.add( lights[ 1 ] );
     scene.add( lights[ 2 ] );
+
+    scene.add( new THREE.AmbientLight( 0xffffff ) );
+
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    directionalLight.position.set( 1, 1, 1 ).normalize();
+    scene.add( directionalLight );
+
+    // var pointLight = new THREE.PointLight( 0xffffff, 2, 800 );
+    // particleLight.add( pointLight );
 
     var controls = new THREE.TrackballControls(camera, viewerDiv);
     controls.rotateSpeed = 4.0;
@@ -60,9 +69,13 @@ var displayModule = (function () {
         geom.faces.push(v);
     }
 
+    let alpha = 0.5, beta = 0.7, gamma = 0.6;
     var phongMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x007acc, 
-        shading: THREE.FlatShading,
+        color: new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 ),
+        specular: new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 ),
+        reflectivity: beta,
+        shininess: Math.pow( 2, alpha * 10 ),
+        shading: THREE.SmoothShading,
         side: THREE.DoubleSide
     });
     var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
