@@ -61,7 +61,7 @@ var displayModule = (function () {
         return new THREE.Vector3(arr[0], arr[1], arr[2]);
     }
     for (let i = 0, len = curveTri.index.length; i < len; i++){
-        let vertNormals = [];
+        let vertNormals = []; 
         vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][0]]));
         vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][1]]));
         vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][2]]));
