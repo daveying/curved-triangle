@@ -109,6 +109,31 @@ footer a:hover {
     box-shadow: 4px 4px 4px gray;
 }
 
+.pop-window-title {
+    width: 100%;
+    background-color: #2d2d2d;
+    display: flex;
+}
+
+.window-title {
+    font-size: 1.5em;
+    color: #878787;
+    padding: 10px;
+    flex: 1;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
+}
+
+.window-close-icon {
+    /* width: 30px; */
+    font-size: 1.3em;
+    margin: 15px 5px 15px 5px;
+    color: #878787;
+}
+
 @media all and (max-width: 767px) {
     #footer div {
         word-wrap: normal;

@@ -45,7 +45,15 @@ var controlPanelModule = (function () {
         }
     }
     return {
-        hideAll: hideAll
+        hideAll: hideAll,
+        hideDataInput: function () {
+            $dataInput.fadeOut(1);
+            dataInputOpen = false;
+        },
+        hideInfoShow: function () {
+            $infoShow.fadeOut(1);
+            infoShowOpen = false;
+        }
     };
 })();
 
@@ -68,3 +76,23 @@ var logoCtrl = (function () {
 $('#viewer-div').click(function () {
     controlPanelModule.hideAll();
 });
+
+var popWindowCtrl = (function () {
+    var closeSpans = document.getElementsByClassName('window-close');
+    for (let i = 0, len = closeSpans.length; i < len; i++){
+        closeSpans[i].onmouseover = function (event) {
+            closeSpans[i].style['color'] = '#dcdcdc';
+        }
+        closeSpans[i].onmouseout = function (event) {
+            closeSpans[i].style['color'] = '#878787';
+        }
+        closeSpans[i].onclick = function (event) {
+            if (event.path[3].id === 'data-input') {
+                controlPanelModule.hideDataInput();
+            }
+            if (event.path[3].id === 'info-show') {
+                controlPanelModule.hideInfoShow();
+            }
+        }
+    }
+})();
