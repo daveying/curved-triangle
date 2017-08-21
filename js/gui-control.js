@@ -13,10 +13,10 @@ var controlPanelModule = (function () {
             infoShowOpen = false;
         }
         if (dataInputOpen) {
-            $dataInput.fadeOut(1);
+            $dataInput.fadeOut(100);
             dataInputOpen = false;
         } else {
-            $dataInput.fadeIn(1);
+            $dataInput.fadeIn(100);
             dataInputOpen = true;
         }
     });
@@ -26,32 +26,32 @@ var controlPanelModule = (function () {
             dataInputOpen = false;
         }
         if (infoShowOpen) {
-            $infoShow.fadeOut(1);
+            $infoShow.fadeOut(100);
             infoShowOpen = false;
         } else {
-            $infoShow.fadeIn(1);
+            $infoShow.fadeIn(100);
             infoShowOpen = true;
         }
     });
 
     function hideAll () {
         if (infoShowOpen) {
-            $infoShow.fadeOut(1);
+            $infoShow.fadeOut(100);
             infoShowOpen = false;
         }
         if (dataInputOpen) {
-            $dataInput.fadeOut(1);
+            $dataInput.fadeOut(100);
             dataInputOpen = false;
         }
     }
     return {
         hideAll: hideAll,
         hideDataInput: function () {
-            $dataInput.fadeOut(1);
+            $dataInput.fadeOut(100);
             dataInputOpen = false;
         },
         hideInfoShow: function () {
-            $infoShow.fadeOut(1);
+            $infoShow.fadeOut(100);
             infoShowOpen = false;
         }
     };
