@@ -50,8 +50,8 @@ var displayModule = (function () {
 
     //var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3), new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
     var ct = new QuadaticTriangle();
-    ct.set([0, 1, 0], [0, 0, 0], [1, 0, 0], [0, 0.5, 0], [0.5, 0, 0], [0.5, 0.5, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]);
-    var curveTri = ct.facet(15);
+    ct.set([0, 1, 0], [0, 0, 0], [1, 0, 0], [0, 0.5, 0], [0.5, 0, 0], [-0.544432, 0.532, 0], [0, 0, 1], [0, 0, 1], [0, 0, 1]);
+    var curveTri = ct.facet(3);
     var geom = new THREE.Geometry();
     for ( let i = 0, len = curveTri.vertices.length; i < len; i++){
         let v = new THREE.Vector3(curveTri.vertices[i][0], curveTri.vertices[i][1], curveTri.vertices[i][2]);
@@ -75,7 +75,7 @@ var displayModule = (function () {
         specular: new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 ),
         reflectivity: beta,
         shininess: Math.pow( 2, alpha * 10 ),
-        shading: THREE.SmoothShading,
+        shading: THREE.FlatShading,
         side: THREE.DoubleSide
     });
     var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
