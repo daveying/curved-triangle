@@ -87,27 +87,14 @@ footer a:hover {
     /* end footer id="footer" */
 /* end div id="body" */
 
-#data-input {
+.pop-window {
     position: absolute; 
     top: 60px;
     left: 60px;
     right: 20px;
-    /* width: 100%; */
+    bottom: 60px;
     max-width: 500px;
-    height: 500px;
-    background-color: #252526;
-    border-radius: 5px;
-    box-shadow: 4px 4px 4px gray;
-}
-
-#info-show {
-    position: absolute; 
-    top: 110px;
-    left: 60px;
-    right: 20px;
-    /* width: 100%; */
-    max-width: 500px;
-    height: 500px;
+    max-height: 500px;
     background-color: #252526;
     border-radius: 5px;
     box-shadow: 4px 4px 4px gray;
@@ -117,6 +104,10 @@ footer a:hover {
     width: 100%;
     background-color: #2d2d2d;
     display: flex;
+}
+
+.pop-window-content {
+    overflow: scroll;
 }
 
 .window-title {
@@ -138,6 +129,20 @@ footer a:hover {
     color: #878787;
 }
 
+.vector-input-row {
+    margin: 5px 5px 5px 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.input-item {
+    flex: 1;
+    min-width: 200px;
+}
+.section-title {
+    font-size: 1.2em;
+    color: #878787;
+    margin: 5px;
+}
 @media all and (max-width: 767px) {
     #footer div {
         word-wrap: normal;
