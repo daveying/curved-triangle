@@ -96,3 +96,21 @@ var popWindowCtrl = (function () {
         }
     }
 })();
+
+var quadPopWindowModule = (function () {
+    var P200Input = document.getElementById('P200');
+    var P020Input = document.getElementById('P020');
+    var P002Input = document.getElementById('P002');
+
+    var P110Input = document.getElementById('P110');
+    var P011Input = document.getElementById('P011');
+    var P101Input = document.getElementById('P101');
+
+    var N200Input = document.getElementById('N200');
+    var N020Input = document.getElementById('N020');
+    var N002Input = document.getElementById('N002');
+
+    var LodInput = document.getElementById('quad-lod');
+
+    
+})();

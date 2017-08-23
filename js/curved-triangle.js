@@ -28,13 +28,13 @@ function inherits(ctor, superCtor) {
       configurable: true
     }
   });
-};
+}
 
 var CurvedTriangle = function () {
     this.lodList = {};
-}
-CurvedTriangle.prototype.evalPose = function (u, v, w) {}
-CurvedTriangle.prototype.evalNormal = function (u, v, w) {}
+};
+CurvedTriangle.prototype.evalPose = function (u, v, w) {};
+CurvedTriangle.prototype.evalNormal = function (u, v, w) {};
 CurvedTriangle.prototype.getFacets = function (lod) {
     if (isNaN(lod)) return;
     if (lod < 0) return;
@@ -44,7 +44,7 @@ CurvedTriangle.prototype.getFacets = function (lod) {
         lodList[lod] = facet(lod);
         return lodList[lod];
     }
-}
+};
 CurvedTriangle.prototype.facet = function (lod) {
     var index = [];
     var vertices = [];
@@ -91,15 +91,15 @@ CurvedTriangle.prototype.facet = function (lod) {
         index: index,
         vertices: vertices,
         normals: normals
-    }
-}
+    };
+};
 
 var QuadaticTriangle = function () {
     this.p200 = []; this.p020 = []; this.p002 = []; // vertices
     this.p110 = []; this.p011 = []; this.p101 = []; // control points
     this.n200 = []; this.n020 = []; this.n002 = []; // vertex normals
     this.n110 = []; this.n011 = []; this.n101 = [];
-}
+};
 inherits(QuadaticTriangle, CurvedTriangle);
 QuadaticTriangle.prototype.set = function(p200_, p020_, p002_, p110_, p011_, p101_, n200_, n020_, n002_) {
     lodList = {};
@@ -109,7 +109,7 @@ QuadaticTriangle.prototype.set = function(p200_, p020_, p002_, p110_, p011_, p10
     this.n110 = vector3Tools.scale(vector3Tools.add(this.n200, this.n020), 0.5);
     this.n011 = vector3Tools.scale(vector3Tools.add(this.n020, this.n002), 0.5);
     this.n101 = vector3Tools.scale(vector3Tools.add(this.n200, this.n002), 0.5);
-}
+};
 QuadaticTriangle.prototype.evalPose = function(u, v, w) {
     return vector3Tools.add(vector3Tools.scale(this.p200, u * u), 
                             vector3Tools.scale(this.p020, v * v),
@@ -117,7 +117,7 @@ QuadaticTriangle.prototype.evalPose = function(u, v, w) {
                             vector3Tools.scale(this.p110, 2 * u * v),
                             vector3Tools.scale(this.p011, 2 * v * w),
                             vector3Tools.scale(this.p101, 2 * u * w));
-}
+};
 QuadaticTriangle.prototype.evalNormal = function(u, v, w) {
     return vector3Tools.add(vector3Tools.scale(this.n200, u * u), 
                             vector3Tools.scale(this.n020, v * v),
@@ -125,7 +125,7 @@ QuadaticTriangle.prototype.evalNormal = function(u, v, w) {
                             vector3Tools.scale(this.n110, 2 * u * v),
                             vector3Tools.scale(this.n011, 2 * v * w),
                             vector3Tools.scale(this.n101, 2 * u * w));
-}
+};
 
 var CubicTriangle = function () {
     this.p300 = []; this.p030 = []; this.p003 = []; // vertices
@@ -142,7 +142,7 @@ var CubicTriangle = function () {
     //quadratic normals
     this.n200 = []; this.n020 = []; this.n002 = []; // vertex normals
     this.n110 = []; this.n011 = []; this.n101 = [];
-}
+};
 inherits(CubicTriangle, CurvedTriangle);
 CubicTriangle.prototype.set = function(p300_, p030_, p003_, p210_, p120_,  p021_, p012_, p201_, p102_, p111_, n200_, n020_, n002_) {
     lodList = {};
@@ -156,7 +156,7 @@ CubicTriangle.prototype.set = function(p300_, p030_, p003_, p210_, p120_,  p021_
     this.n110 = vector3Tools.scale(vector3Tools.add(this.n200, this.n020), 0.5);
     this.n011 = vector3Tools.scale(vector3Tools.add(this.n020, this.n002), 0.5);
     this.n101 = vector3Tools.scale(vector3Tools.add(this.n200, this.n002), 0.5);
-}
+};
 CubicTriangle.prototype.evalNormal = function(u, v, w) {
     return vector3Tools.add(vector3Tools.scale(this.n200, u * u * u), 
                             vector3Tools.scale(this.n020, v * v * v),
@@ -164,7 +164,7 @@ CubicTriangle.prototype.evalNormal = function(u, v, w) {
                             vector3Tools.scale(this.n110, 2 * u * v),
                             vector3Tools.scale(this.n011, 2 * v * w),
                             vector3Tools.scale(this.n101, 2 * u * w));
-}
+};
 CubicTriangle.prototype.evalPose = function(u, v, w) {
     return vector3Tools.add(vector3Tools.scale(this.n300, u * u), 
                             vector3Tools.scale(this.n030, v * v),
@@ -176,4 +176,4 @@ CubicTriangle.prototype.evalPose = function(u, v, w) {
                             vector3Tools.scale(this.n201, 3 * u * u * w),
                             vector3Tools.scale(this.n102, 3 * u * w * w),
                             vector3Tools.scale(this.n111, 6 * u * v * w));
-}
+};
