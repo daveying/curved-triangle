@@ -1,4 +1,6 @@
 var displayModule = (function () {
+    var mesh = null;
+
     // renderer
     var viewerDiv = document.getElementById('viewer-div');
     var renderer = new THREE.WebGLRenderer();
@@ -102,8 +104,12 @@ var displayModule = (function () {
         });
         var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
         geom.computeFaceNormals();
-        var mesh = new THREE.Mesh(geom, phongMaterial);
+
+        if (mesh !== null)scene.remove(mesh);
+        mesh = new THREE.Mesh(geom, phongMaterial);
         scene.add(mesh);
+
+        render();
     }
 
     function addCubicTri () {}

@@ -99,6 +99,7 @@ var popWindowCtrl = (function () {
 
 var quadPopWindowModule = (function () {
     var quadData = {};
+    var drawButton = document.getElementById('draw-button');
 
     var P200Input = document.getElementById('P200');
     var P020Input = document.getElementById('P020');
@@ -126,7 +127,39 @@ var quadPopWindowModule = (function () {
         var n020Str = N020Input.value;
         var n002Str = N002Input.value;
         var lodStr = LodInput.value;
+        var floatRegex = /(-?\d+)(\.\d+)?/g;
+        var intRegex = /\d{1,2}/g;
+        var vectorRegex = /^((-?\d+)(\.\d+)?[,|，][\s]*){2}(-?\d+)(\.\d+)?[\s]*$/;
+        var lodRegex = /^\d{1,2}$/;
+        
+        if (vectorRegex.test(p200Str) &&
+          vectorRegex.test(p020Str) &&
+          vectorRegex.test(p002Str) &&
+          vectorRegex.test(p110Str) &&
+          vectorRegex.test(p101Str) &&
+          vectorRegex.test(p011Str) &&
+          vectorRegex.test(n200Str) &&
+          vectorRegex.test(n020Str) &&
+          vectorRegex.test(n002Str)) {
+            
+            quadData.P200 = p200Str.match(floatRegex).map(parseFloat);
+            quadData.P020 = p020Str.match(floatRegex).map(parseFloat);
+            quadData.P002 = p002Str.match(floatRegex).map(parseFloat);
+            quadData.P110 = p110Str.match(floatRegex).map(parseFloat);
+            quadData.P011 = p011Str.match(floatRegex).map(parseFloat);
+            quadData.P101 = p101Str.match(floatRegex).map(parseFloat);
+            quadData.N200 = n200Str.match(floatRegex).map(parseFloat);
+            quadData.N020 = n020Str.match(floatRegex).map(parseFloat);
+            quadData.N002 = n002Str.match(floatRegex).map(parseFloat);
+
+        }
+        if (lodRegex.test(lodStr)) {
+            quadData.lod = parseInt(lodStr);
+        }
+        displayModule.addQuadTri(quadData);
     }
 
-    readInput();
+
+    drawButton.onclick = readInput;
+
 })();
