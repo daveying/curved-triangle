@@ -98,6 +98,8 @@ var popWindowCtrl = (function () {
 })();
 
 var quadPopWindowModule = (function () {
+    var quadData = {};
+
     var P200Input = document.getElementById('P200');
     var P020Input = document.getElementById('P020');
     var P002Input = document.getElementById('P002');
@@ -112,5 +114,19 @@ var quadPopWindowModule = (function () {
 
     var LodInput = document.getElementById('quad-lod');
 
-    
+    function readInput() {
+        var p200Str = P200Input.value;
+        var p020Str = P020Input.value;
+        var p002Str = P002Input.value;
+        var p110Str = P110Input.value;
+        var p101Str = P101Input.value;
+        var p011Str = P011Input.value;
+
+        var n200Str = N200Input.value;
+        var n020Str = N020Input.value;
+        var n002Str = N002Input.value;
+        var lodStr = LodInput.value;
+    }
+
+    readInput();
 })();

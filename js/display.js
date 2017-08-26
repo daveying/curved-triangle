@@ -1,4 +1,5 @@
 var displayModule = (function () {
+    // renderer
     var viewerDiv = document.getElementById('viewer-div');
     var renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xeeeeee);
@@ -6,15 +7,15 @@ var displayModule = (function () {
     renderer.setSize(viewerDiv.getBoundingClientRect().width, viewerDiv.getBoundingClientRect().height);
     viewerDiv.appendChild(renderer.domElement);
 
+    // scene
     var scene = new THREE.Scene();
 
+    // camera
     var camera = new THREE.PerspectiveCamera(45, viewerDiv.getBoundingClientRect().width / viewerDiv.getBoundingClientRect().height, 1, 1000);
     camera.position.set(0, 0, 3);
     scene.add(camera);
 
-    // var ambientLight = new THREE.AmbientLight( 0x000000 );
-    // scene.add( ambientLight );
-
+    // lights
     var lights = [];
     lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
     lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
@@ -34,9 +35,7 @@ var displayModule = (function () {
     directionalLight.position.set( 1, 1, 1 ).normalize();
     scene.add( directionalLight );
 
-    // var pointLight = new THREE.PointLight( 0xffffff, 2, 800 );
-    // particleLight.add( pointLight );
-
+    // camera control
     var controls = new THREE.TrackballControls(camera, viewerDiv);
     controls.rotateSpeed = 4.0;
     controls.zoomSpeed = 4.2;
@@ -48,46 +47,8 @@ var displayModule = (function () {
     controls.keys = [65, 83, 68];
     controls.addEventListener('change', render);
 
-    //var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3), new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
-    var ct = new QuadaticTriangle();
-    ct.set([0, 1, 0], [0, 0, 0], [1, 0, 0], [0, 0.5, 0], [0.5, 0, 0], [-0.544432, 0.532, 0], [0, 0, 1], [0, 0, 1], [0, 0, 1]);
-    var curveTri = ct.facet(4);
-    var geom = new THREE.Geometry();
-    for ( let i = 0, len = curveTri.vertices.length; i < len; i++){
-        let v = new THREE.Vector3(curveTri.vertices[i][0], curveTri.vertices[i][1], curveTri.vertices[i][2]);
-        geom.vertices.push(v);
-    }
-    function formAVector3(arr){
-        return new THREE.Vector3(arr[0], arr[1], arr[2]);
-    }
-    for (let i = 0, len = curveTri.index.length; i < len; i++){
-        let vertNormals = []; 
-        vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][0]]));
-        vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][1]]));
-        vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][2]]));
-        let v = new THREE.Face3(curveTri.index[i][0], curveTri.index[i][1], curveTri.index[i][2], vertNormals);
-        geom.faces.push(v);
-    }
-
-    let alpha = 0.5, beta = 0.7, gamma = 0.6;
-    var phongMaterial = new THREE.MeshPhongMaterial({ 
-        color: new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 ),
-        specular: new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 ),
-        reflectivity: beta,
-        shininess: Math.pow( 2, alpha * 10 ),
-        shading: THREE.SmoothShading,
-        side: THREE.DoubleSide
-    });
-    var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
-    geom.computeFaceNormals();
-    var mesh = new THREE.Mesh(geom, phongMaterial);
-    scene.add(mesh);
-    //scene.add(cube);
-
+    // handle window resize
     window.addEventListener('resize', onWindowResize, false);
-
-    render();
-    animate();
     function onWindowResize() {
         camera.aspect = viewerDiv.getBoundingClientRect().width / viewerDiv.getBoundingClientRect().height;
         camera.updateProjectionMatrix();
@@ -96,13 +57,60 @@ var displayModule = (function () {
         render();
     }
 
+    // render and animate
+    render();
+    animate();
     function animate() {
         requestAnimationFrame( animate );
         controls.update();
     }
-
     function render() {
         renderer.render( scene, camera );
     }
+
+    function addQuadTri(quadData) {
+        var ct = new QuadaticTriangle();
+        ct.set(quadData.P200, quadData.P020, quadData.P002, 
+            quadData.P110, quadData.P011, quadData.P101,
+            quadData.N200, quadData.N020, quadData.N002);
+        var curveTri = ct.facet(quadData.lod);
+        var geom = new THREE.Geometry();
+        for ( let i = 0, len = curveTri.vertices.length; i < len; i++){
+            let v = new THREE.Vector3(curveTri.vertices[i][0], curveTri.vertices[i][1], curveTri.vertices[i][2]);
+            geom.vertices.push(v);
+        }
+        function formAVector3(arr){
+            return new THREE.Vector3(arr[0], arr[1], arr[2]);
+        }
+        for (let i = 0, len = curveTri.index.length; i < len; i++){
+            let vertNormals = []; 
+            vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][0]]));
+            vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][1]]));
+            vertNormals.push(formAVector3(curveTri.normals[curveTri.index[i][2]]));
+            let v = new THREE.Face3(curveTri.index[i][0], curveTri.index[i][1], curveTri.index[i][2], vertNormals);
+            geom.faces.push(v);
+        }
+
+        let alpha = 0.5, beta = 0.7, gamma = 0.6;
+        var phongMaterial = new THREE.MeshPhongMaterial({ 
+            color: new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 ),
+            specular: new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 ),
+            reflectivity: beta,
+            shininess: Math.pow( 2, alpha * 10 ),
+            shading: THREE.SmoothShading,
+            side: THREE.DoubleSide
+        });
+        var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
+        geom.computeFaceNormals();
+        var mesh = new THREE.Mesh(geom, phongMaterial);
+        scene.add(mesh);
+    }
+
+    function addCubicTri () {}
+
+    return {
+        addQuadTri: addQuadTri,
+        addCubicTri: addCubicTri
+    };
 
 })();
