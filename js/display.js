@@ -13,7 +13,7 @@ var displayModule = (function () {
     var scene = new THREE.Scene();
 
     // camera
-    var camera = new THREE.PerspectiveCamera(45, viewerDiv.getBoundingClientRect().width / viewerDiv.getBoundingClientRect().height, 1, 1000);
+    var camera = new THREE.PerspectiveCamera(45, viewerDiv.getBoundingClientRect().width / viewerDiv.getBoundingClientRect().height, 0.01, 1000);
     camera.position.set(0, 0, 3);
     scene.add(camera);
 
