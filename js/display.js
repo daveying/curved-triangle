@@ -37,6 +37,18 @@ var displayModule = (function () {
     directionalLight.position.set( 1, 1, 1 ).normalize();
     scene.add( directionalLight );
 
+    // materials
+    let alpha = 0.5, beta = 0.7, gamma = 0.6;
+    var phongMaterial = new THREE.MeshPhongMaterial({ 
+        color: new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 ),
+        specular: new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 ),
+        reflectivity: beta,
+        shininess: Math.pow( 2, alpha * 10 ),
+        shading: THREE.SmoothShading,
+        side: THREE.DoubleSide
+    });
+    var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
+
     // camera control
     var controls = new THREE.TrackballControls(camera, viewerDiv);
     controls.rotateSpeed = 4.0;
@@ -93,16 +105,6 @@ var displayModule = (function () {
             geom.faces.push(v);
         }
 
-        let alpha = 0.5, beta = 0.7, gamma = 0.6;
-        var phongMaterial = new THREE.MeshPhongMaterial({ 
-            color: new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 ),
-            specular: new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 ),
-            reflectivity: beta,
-            shininess: Math.pow( 2, alpha * 10 ),
-            shading: THREE.SmoothShading,
-            side: THREE.DoubleSide
-        });
-        var normalMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
         geom.computeFaceNormals();
 
         if (mesh !== null)scene.remove(mesh);
@@ -112,11 +114,45 @@ var displayModule = (function () {
         render();
     }
 
+    //trisSet = {indices: [0,1,2,0,2,3], positions:[0,1,0,0,0,0,1,0,0,1,1,1], normals:[0,0,1,0,0,1,0,0,1,-1,-1,1]}
+    function addTris(trisSet) {
+        // trisSet = {
+        //     indices: [],
+        //     positions: [],
+        //     normals: []
+        // }
+        var geom = new THREE.Geometry();
+        trisSet.tempNormals = [];
+        for ( let i = 0, len = trisSet.positions.length; i < len; i+=3){
+            let v = new THREE.Vector3(trisSet.positions[i], trisSet.positions[i + 1], trisSet.positions[i + 2]);
+            let n = new THREE.Vector3(trisSet.normals[i], trisSet.normals[i + 1], trisSet.normals[i + 2])
+            geom.vertices.push(v);
+            trisSet.tempNormals.push(n);
+        }
+
+        for (let i = 0, len = trisSet.indices.length; i < len; i+=3){
+            let vertNormals = []; 
+            vertNormals.push(trisSet.tempNormals[trisSet.indices[i]]);
+            vertNormals.push(trisSet.tempNormals[trisSet.indices[i + 1]]);
+            vertNormals.push(trisSet.tempNormals[trisSet.indices[i + 2]]);
+            let v = new THREE.Face3(trisSet.indices[i], trisSet.indices[i + 1], trisSet.indices[i + 2], vertNormals);
+            geom.faces.push(v);
+        }
+        //geom.computeFaceNormals();
+        
+        if (mesh !== null)scene.remove(mesh);
+        mesh = new THREE.Mesh(geom, phongMaterial);
+        scene.add(mesh);
+        
+        render();
+    }
+
     function addCubicTri () {}
 
     return {
         addQuadTri: addQuadTri,
-        addCubicTri: addCubicTri
+        addCubicTri: addCubicTri,
+        addTris: addTris
     };
 
 })();
